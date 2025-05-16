@@ -12,7 +12,7 @@ test('SignUpFormSchemaFail', async () => {
     return validateSignUpForm({
       firstName: 'bob',
       lastName: 'coolguy',
-      phoneNumber: '1231231233',
+      phoneNumber: '(123)-123-1233',
       validatedCorporationNumber: validated
     })
   })
