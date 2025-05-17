@@ -60,11 +60,7 @@ export const useOnboardingForm = () => {
     queryKey: ['validateCorporationNumber', corpNumber],
     queryFn: async () => {
       const result = await validateCorpNumberWithApi(corpNumber)
-      console.log('result')
-      console.log(result)
       if (result) {
-        console.log('setting validated corp number')
-        // Only set validated number if API validation succeeds
         const validated = ValidatedCorporationNumber.make(corpNumber)
         setValidatedCorpNumber(validated)
       }
@@ -107,8 +103,6 @@ export const useOnboardingForm = () => {
 
   const isFormValid =
     form.isValid() && !error && !isFetching && Boolean(validatedCorpNumber)
-
-  console.log(validatedCorpNumber)
 
   return {
     form,
@@ -185,9 +179,13 @@ const Form = () => {
                 required
                 rightSection={
                   isValidatingCorpNumber ? (
-                    <Loader size="xs" />
+                    <Loader size="xs" data-testid="corp-number-loader" />
                   ) : isValidCorporationNumber ? (
-                    <IconCheck size={18} color="green" />
+                    <IconCheck
+                      data-testid="valid-corp-icon"
+                      size={18}
+                      color="green"
+                    />
                   ) : null
                 }
                 {...form.getInputProps('corporationNumber')}

@@ -8,20 +8,31 @@ const PROFILE_API =
 
 import { ValidateCorpNumberResponse } from './schema'
 
+const validateErrorMessage =
+  "There's been an issue validating your Corporation Number, Please contact support"
 export const validateCorpNumberWithApi = async (number: string) => {
   try {
     const response = await fetch(`${CORP_NUMBER_API}/${number}`)
     const rawBody: unknown = await response.json()
-    const body = Schema.decodeUnknownSync(ValidateCorpNumberResponse)(rawBody)
 
-    if (!body.valid) {
-      throw new Error(body.message || 'Invalid corporation number')
+    if (response.status === 404 || response.ok) {
+      const body = Schema.decodeUnknownSync(ValidateCorpNumberResponse)(rawBody)
+
+      if (!body.valid) {
+        throw new Error(body.message || 'Invalid corporation number')
+      }
+      return body.corporationNumber
     }
-    return body.corporationNumber
-  } catch {
-    throw new Error('Trouble connecting to the api service')
+
+    throw new Error(validateErrorMessage)
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error
+    }
+    throw new Error(validateErrorMessage)
   }
 }
+// 123456789
 
 const formatPhoneForSubmission = (phone: string) => {
   return phone.startsWith('+')
@@ -48,7 +59,10 @@ export const submitForm = async (values: {
 
   if (!response.ok) {
     const error = await response.json()
-    throw new Error(error.message || 'Failed to submit form')
+    throw new Error(
+      error.message ||
+        "There's been an issue signing you up, Please contact support"
+    )
   }
 
   return true
