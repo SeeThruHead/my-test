@@ -1,4 +1,4 @@
-import OnboardingForm from './components/form'
+import OnboardingForm from './components/SignUpForm/form'
 
 function App() {
   return (
