@@ -1,12 +1,6 @@
-import { useMask } from '@react-input/mask'
 import OnboardingForm from './components/form'
 
 function App() {
-  const phoneInputRef = useMask({
-    mask: '+1 (___) ___-____',
-    replacement: { _: /\d/ }
-  })
-
   return (
     <div
       style={{

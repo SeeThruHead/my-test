@@ -14,8 +14,10 @@
   },
   "dependencies": {
     "@mantine/core": "^8.0.1",
+    "@mantine/form": "^8.0.1",
     "@mantine/hooks": "^8.0.1",
     "@react-input/mask": "^2.0.4",
+    "@tabler/icons-react": "^3.33.0",
     "effect": "^3.15.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
